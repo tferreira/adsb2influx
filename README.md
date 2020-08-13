@@ -1,8 +1,14 @@
 # ADS-B to InfluxDB
 
+
 This Python script can read data from [dump1090](https://github.com/antirez/dump1090)
 in SBS1 (BaseStation) format, process it and then store them in
 [InfluxDB](https://github.com/influxdata/influxdb).
+
+Modified to include compute geohash data and add it as a tag. Minor log spelling updates.
+
+Requirements:
+[Geohash2](https://pypi.org/project/geohash2/)
 
 Example usage:
 

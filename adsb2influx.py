@@ -6,6 +6,7 @@ import argparse
 import re
 import logging
 import requests
+import geohash2
 
 ################################################################################
 # Global Variables
@@ -389,12 +390,21 @@ def main():
                     msg['gen_date'], msg['gen_time']
                 ), '%Y/%m/%d %H:%M:%S.%f')))
 
+                try:
+                    geohash = geohash2.encode(msg.get('latitude'),msg.get('longitude'))
+                except TypeError:
+                    log.info('Geohash returned a TypeError')
+
+                #geohash = geohash2.encode(msg.get('latitude'),msg.get('longitude'))
+                log.info('Geohash is {}'.format(geohash))
+
                 # Prepare data and tags so it can be sent to InfluxDB.
                 to_send.append({
                     'tags': {
                         'hexident': hexident,
                         'callsign': msg['callsign'],
                         'squawk': msg['squawk'],
+                        'geohash': geohash
                     },
                     'fields': {
                         'generated': timestamp,
